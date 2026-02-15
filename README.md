@@ -14,6 +14,9 @@ compare their answers without leaving your keyboard.
 <img src="screenshots/query-response.png" alt="All three models answering the same question" width="820">
 
 <br>
+
+<video src="https://github.com/charlesnchr/llm-council/raw/main/screenshots/demo.mp4" width="820" autoplay loop muted playsinline></video>
+
 <br>
 
 [Install](#install) · [Getting Started](#getting-started) · [Shortcuts](#keyboard-shortcuts) · [How It Works](#how-it-works)
