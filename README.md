@@ -30,6 +30,10 @@ Multiplex your queries across ChatGPT, Claude, and Gemini in a single window —
 - **Cookie sync** — click **Sync from Chrome** to import your existing browser sessions. No need to log into each platform again.
 - **Theme support** — switch between Light, Dark, and System themes.
 
+<div align="center">
+<img src="screenshots/query-response.png" alt="Three models responding to the same query" width="820">
+</div>
+
 ## Install
 
 ### Homebrew (recommended)
