@@ -1,47 +1,79 @@
+<div align="center">
+
 # LLM Council
 
-Query ChatGPT, Claude, and Gemini simultaneously. Compare responses side-by-side in a single keyboard-driven Electron app.
+**One prompt. Three models. Side by side.**
 
-![LLM Council — three panels showing responses to the same query](screenshots/query-response.png)
+Ask ChatGPT, Claude, and Gemini the same question at the same time —<br>
+compare their answers without leaving your keyboard.
 
-## Why
+<br>
 
-Comparing LLM outputs means opening three browser tabs, copy-pasting the same prompt, and alt-tabbing between windows. LLM Council puts all three in one frame — type once, read three answers.
+<img src="screenshots/query-response.png" alt="All three models answering the same question" width="820">
+
+<br>
+<br>
+
+[Getting Started](#getting-started) · [Shortcuts](#keyboard-shortcuts) · [How It Works](#how-it-works)
+
+</div>
+
+---
+
+<br>
+
+## The Problem
+
+You have a question. You want to see how GPT, Claude, and Gemini each handle it. So you open three tabs, paste the same prompt into each one, and then flip back and forth comparing. It's tedious and you lose context switching between windows.
+
+LLM Council removes all of that. One text field, three panels, instant comparison.
+
+<br>
 
 ## Features
 
-**Side-by-side panels** — ChatGPT, Claude, and Gemini each render in their own authenticated webview. Resize panels by dragging the dividers between them.
+<table>
+<tr>
+<td width="50%">
 
-**Command palette** — `Cmd+K` opens a VS Code-style palette with fuzzy search. Toggle platforms, reload panels, rename tabs, switch tabs, open devtools — all without touching the mouse.
+### Command Palette
 
-![Command palette with fuzzy search](screenshots/command-palette.png)
+`Cmd+K` opens a fuzzy-search palette with every action in the app — toggle platforms, reload panels, rename tabs, open devtools. If you've used VS Code, you already know how this works.
 
-**Platform toggles** — Show or hide any combination of platforms. Toggle individually with `Cmd+Shift+1/2/3`, or use the command palette to show only one.
+</td>
+<td width="50%">
 
-**Tabbed conversations** — Open multiple parallel conversations. Tabs auto-rename from the conversation title once responses arrive (priority: Claude > ChatGPT > Gemini). Rename manually via command palette.
+<img src="screenshots/command-palette.png" alt="Command palette" width="400">
 
-**Cookie sync** — One-click import of cookies from your Chrome profile. No need to log in again — it reads your existing Chrome sessions (macOS, encrypted cookie store).
+</td>
+</tr>
+</table>
 
-**Keyboard-driven** — Monospace UI, flat styling, minimal chrome. Every action has a keyboard shortcut or is reachable through the command palette.
+### Three Panels, One Query
 
-![App on launch with all three platforms](screenshots/main-ui.png)
+Each model runs in its own isolated webview with a persistent session. Type a question, hit Enter, and all three models receive it simultaneously. Drag the dividers to resize panels to your liking.
 
-## Keyboard Shortcuts
+### Platform Toggles
 
-| Shortcut | Action |
-|---|---|
-| `Cmd+K` | Command palette |
-| `Cmd+L` | Focus query input |
-| `Cmd+Shift+1` | Toggle ChatGPT |
-| `Cmd+Shift+2` | Toggle Claude |
-| `Cmd+Shift+3` | Toggle Gemini |
-| `Cmd+Shift+R` | Reload all panels |
-| `Cmd+N` | New chat (reset current tab) |
-| `Cmd+T` | New tab |
-| `Cmd+W` | Close tab |
-| `Cmd+1`–`9` | Jump to tab |
-| `Ctrl+Tab` | Next tab |
-| `Ctrl+Shift+Tab` | Previous tab |
+Don't need Gemini for this one? `Cmd+Shift+3` hides it. Want to focus on just Claude? Open the palette and run "Show Only Claude". The toggles in the bottom bar give you a quick visual of what's active.
+
+### Tabbed Conversations
+
+`Cmd+T` opens a new tab with fresh sessions across all three platforms. Tabs auto-rename from the conversation title as responses come in. Open as many parallel threads as you need.
+
+### Cookie Sync from Chrome
+
+Click **Sync from Chrome** and the app imports your existing Chrome sessions — no need to log into each platform again. It reads Chrome's encrypted cookie database directly from your macOS Keychain.
+
+<br>
+
+<details>
+<summary><strong>See the full UI on launch</strong></summary>
+<br>
+<img src="screenshots/main-ui.png" alt="LLM Council on launch" width="820">
+</details>
+
+<br>
 
 ## Getting Started
 
@@ -52,19 +84,45 @@ npm install
 npx electron .
 ```
 
-Requires Node.js and npm. On first launch, click **Sync from Chrome** to import your browser sessions — this pulls cookies from your active Chrome profile so you don't need to log in to each platform separately.
+On first launch, click **Sync from Chrome** in the top right to pull in your browser sessions. You need to be logged into ChatGPT, Claude, and Gemini in Chrome beforehand.
+
+### Requirements
+
+- **macOS** — cookie import uses the macOS Keychain for Chrome decryption
+- **Chrome** — logged into the three platforms
+- **Node.js 18+**
+
+<br>
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|:--|:--|
+| `Cmd+K` | Command palette |
+| `Cmd+L` | Focus query input |
+| `Cmd+Shift+1` | Toggle ChatGPT |
+| `Cmd+Shift+2` | Toggle Claude |
+| `Cmd+Shift+3` | Toggle Gemini |
+| `Cmd+Shift+R` | Reload all panels |
+| `Cmd+N` | New chat (reset current tab) |
+| `Cmd+T` | New tab |
+| `Cmd+W` | Close tab |
+| `Cmd+1`–`9` | Jump to tab |
+| `Ctrl+Tab` / `Ctrl+Shift+Tab` | Next / previous tab |
+
+Everything is also accessible through the command palette.
+
+<br>
 
 ## How It Works
 
-Each platform runs in an isolated Electron `<webview>` with its own persistent session partition. When you type a query and press Send (or Enter), injection scripts locate each platform's input field, insert the text, and click send — mimicking what you'd do manually.
+Each platform runs in an Electron `<webview>` with its own `persist:` session partition, so cookies and state are fully isolated between models.
 
-Cookie import reads Chrome's encrypted SQLite cookie database on macOS, decrypts values using the Chrome Safe Storage keychain entry, and loads them into each webview's session.
+When you press Send, platform-specific injection scripts locate the input field in each webview's DOM (handling contenteditable divs, ProseMirror editors, shadow DOM in Gemini), insert the query text, and programmatically click the send button.
 
-## Requirements
+Cookie import shells out to `sqlite3` to read Chrome's `Cookies` database, decrypts the values using PBKDF2-derived keys from the Chrome Safe Storage keychain entry, and loads them into each webview's Electron session.
 
-- macOS (cookie import uses the macOS Keychain for Chrome decryption)
-- Chrome installed and logged into ChatGPT, Claude, and Gemini
-- Node.js 18+
+<br>
 
 ## License
 
