@@ -46,11 +46,9 @@ It remembers which models you have active, so new tabs inherit your last configu
 brew install charlesnchr/tap/llmux
 ```
 
-Homebrew handles the unsigned-app quarantine automatically.
-
 ### Download
 
-Grab the `.dmg` from the [Releases](https://github.com/charlesnchr/llmux/releases) page. Drag to Applications, then clear the quarantine flag (the app is unsigned):
+Grab the `.dmg` from the [Releases](https://github.com/charlesnchr/llmux/releases) page and drag to Applications. On first launch, if macOS blocks the app, run:
 
 ```bash
 xattr -cr /Applications/LLMux.app
