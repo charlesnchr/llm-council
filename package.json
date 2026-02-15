@@ -3,10 +3,43 @@
   "version": "1.0.0",
   "description": "Query ChatGPT, Claude, and Gemini simultaneously",
   "main": "main.js",
+  "author": "Charles Nicklas",
+  "license": "MIT",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder --mac",
+    "dist:dmg": "electron-builder --mac dmg",
+    "dist:zip": "electron-builder --mac zip"
+  },
+  "build": {
+    "appId": "com.charlesnchr.llm-council",
+    "productName": "LLM Council",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "dmg": {
+      "title": "LLM Council",
+      "iconSize": 80,
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "files": [
+      "main.js",
+      "renderer.js",
+      "index.html",
+      "cookie-import.js",
+      "assets/icon.png"
+    ]
   },
   "devDependencies": {
-    "electron": "^33.0.0"
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
   }
 }

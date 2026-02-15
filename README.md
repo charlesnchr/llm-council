@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/banner.png" alt="" width="820">
+
 # LLM Council
 
 **One prompt. Three models. Side by side.**
@@ -14,7 +16,7 @@ compare their answers without leaving your keyboard.
 <br>
 <br>
 
-[Getting Started](#getting-started) · [Shortcuts](#keyboard-shortcuts) · [How It Works](#how-it-works)
+[Install](#install) · [Getting Started](#getting-started) · [Shortcuts](#keyboard-shortcuts) · [How It Works](#how-it-works)
 
 </div>
 
@@ -75,7 +77,13 @@ Click **Sync from Chrome** and the app imports your existing Chrome sessions —
 
 <br>
 
-## Getting Started
+## Install
+
+### Download the app (recommended)
+
+Grab the latest `.dmg` from the [Releases](https://github.com/charlesnchr/llm-council/releases) page. Open it, drag **LLM Council** to Applications, and launch.
+
+### Or run from source
 
 ```bash
 git clone https://github.com/charlesnchr/llm-council.git
@@ -84,13 +92,25 @@ npm install
 npx electron .
 ```
 
+### Build it yourself
+
+```bash
+npm run dist
+```
+
+This produces `dist/LLM Council-*.dmg` and a `.zip` with the standalone `.app` inside.
+
+<br>
+
+## Getting Started
+
 On first launch, click **Sync from Chrome** in the top right to pull in your browser sessions. You need to be logged into ChatGPT, Claude, and Gemini in Chrome beforehand.
 
 ### Requirements
 
-- **macOS** — cookie import uses the macOS Keychain for Chrome decryption
+- **macOS** (Apple Silicon) — cookie import uses the macOS Keychain for Chrome decryption
 - **Chrome** — logged into the three platforms
-- **Node.js 18+**
+- **Node.js 18+** (only needed when running from source)
 
 <br>
 

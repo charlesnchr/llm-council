@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 *.log
+dist/
+assets/icon.iconset/
+assets/icon_1024.png
+assets/banner_raw.png
