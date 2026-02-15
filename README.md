@@ -10,7 +10,9 @@ Multiplex your queries across ChatGPT, Claude, and Gemini in a single window —
 
 <br>
 
-https://github.com/user-attachments/assets/demo.mp4
+
+https://github.com/user-attachments/assets/4ec20675-1049-4c3d-b1ef-8091d8bb3feb
+
 
 <img src="screenshots/query-response.png" alt="Three models responding to the same query" width="820">
 
