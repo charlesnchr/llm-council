@@ -72,14 +72,6 @@ Click **Sync from Chrome** and the app imports your existing Chrome sessions —
 
 <br>
 
-<details>
-<summary><strong>See the full UI on launch</strong></summary>
-<br>
-<img src="screenshots/main-ui.png" alt="LLM Council on launch" width="820">
-</details>
-
-<br>
-
 ## Install
 
 ### Download the app (recommended)
