@@ -4,18 +4,15 @@
 
 # LLMux
 
-**Your universal LLM gateway.**
+**One input. Three models. Instant answers.**
 
-One input. Multiple models. Launch from Raycast or use directly.<br>
-Multiplex your queries across ChatGPT, Claude, and Gemini — or just use the one you need.
+Multiplex your queries across ChatGPT, Claude, and Gemini in a single window — or toggle down to just the one you need. Launch from Raycast or use directly.
 
 <br>
+
+https://github.com/user-attachments/assets/demo.mp4
 
 <img src="screenshots/query-response.png" alt="Three models responding to the same query" width="820">
-
-<br>
-
-<video src="https://github.com/charlesnchr/llmux/raw/main/screenshots/demo.mp4" width="820" autoplay loop muted playsinline></video>
 
 <br>
 
@@ -25,70 +22,35 @@ Multiplex your queries across ChatGPT, Claude, and Gemini — or just use the on
 
 ---
 
-<br>
-
 ## What is LLMux
 
-LLMux is an Electron app that wraps ChatGPT, Claude, and Gemini in side-by-side panels. Type a query once, get three answers simultaneously. Or toggle down to a single model and use it as a focused daily driver.
+LLMux is a lightweight Electron app that wraps ChatGPT, Claude, and Gemini in side-by-side panels. Type a query once, get three answers simultaneously. Or toggle down to a single model and use it as a focused daily driver.
 
-It remembers which models you have active, so new tabs match your last configuration. Combined with the Raycast extension, it becomes a keyboard-first LLM launcher: type your question anywhere, hit enter, and LLMux opens with all your models already working on it.
-
-<br>
+It remembers which models you have active, so new tabs inherit your last configuration. Combined with the Raycast extension, it becomes a keyboard-first LLM launcher: type your question anywhere, hit enter, and LLMux opens with all your models already working on it.
 
 ## Features
 
-<table>
-<tr>
-<td width="50%">
-
-### Raycast Integration
-
-Install the bundled Raycast extension and query your models from anywhere on your Mac. LLMux opens, creates a new tab, and fires the query to all active models — all without touching the app first.
-
-</td>
-<td width="50%">
-
-### Command Palette
-
-`Cmd+K` opens a fuzzy-search palette with every action in the app. Toggle platforms, reload panels, rename tabs, open devtools — VS Code-style.
-
-<img src="screenshots/command-palette.png" alt="Command palette" width="380">
-
-</td>
-</tr>
-</table>
-
-### Multiplexer Mode
-
-All three models in one frame, answering the same question. Resize panels by dragging dividers. Compare reasoning, tone, and accuracy at a glance.
-
-### Single-Model Mode
-
-Don't always need all three. Toggle off what you don't need with `Ctrl+Option+1/2/3`, or use the command palette to "Show Only Claude." LLMux remembers your selection — new tabs inherit whichever models you last had active.
-
-### Tabbed Conversations
-
-`Cmd+T` opens a new tab with fresh sessions. Tabs auto-rename from conversation titles as responses come in. Run as many parallel threads as you want.
-
-### Cookie Sync
-
-Click **Sync from Chrome** to import your existing browser sessions. LLMux reads Chrome's encrypted cookie database from your macOS Keychain — no need to log into each platform again.
-
-<br>
+- **Multiplexed queries** — all three models in one frame, answering the same question. Resize panels by dragging dividers. Compare reasoning, tone, and accuracy at a glance.
+- **Single-model mode** — toggle off what you don't need with `Cmd+Shift+1/2/3`, or use the command palette to "Show Only Claude." New tabs inherit your selection.
+- **Tabbed conversations** — `Cmd+T` opens a new tab with fresh sessions. Tabs auto-rename from conversation titles as responses come in.
+- **Command palette** — `Cmd+K` opens a fuzzy-search palette with every action in the app. Toggle platforms, reload panels, rename tabs, switch themes.
+- **Raycast integration** — install the bundled extension and query your models from anywhere on your Mac. LLMux opens, creates a new tab, and fires the query to all active models.
+- **Cookie sync** — click **Sync from Chrome** to import your existing browser sessions. No need to log into each platform again.
+- **Theme support** — switch between Light, Dark, and System themes.
 
 ## Install
 
 ### Homebrew (recommended)
 
-The easiest way to install. Homebrew handles the unsigned-app quarantine automatically.
-
 ```bash
 brew install charlesnchr/tap/llmux
 ```
 
+Homebrew handles the unsigned-app quarantine automatically.
+
 ### Download
 
-Grab the `.dmg` from the [Releases](https://github.com/charlesnchr/llmux/releases) page. Drag to Applications, then clear the quarantine flag (the app is unsigned — Homebrew does this for you):
+Grab the `.dmg` from the [Releases](https://github.com/charlesnchr/llmux/releases) page. Drag to Applications, then clear the quarantine flag (the app is unsigned):
 
 ```bash
 xattr -cr /Applications/LLMux.app
@@ -105,8 +67,6 @@ npx electron .
 
 ### Raycast extension
 
-The extension is in the `raycast-extension/` directory. To install:
-
 ```bash
 cd raycast-extension
 npm install && npm run build
@@ -114,17 +74,15 @@ npm install && npm run build
 
 Then open Raycast, go to Extensions, and import the built extension from the directory.
 
-<br>
-
 ## Keyboard Shortcuts
 
 | Shortcut | Action |
 |:--|:--|
-| `Cmd+K` | Command palette |
+| `Cmd+K` or `Cmd+/` | Command palette |
 | `Cmd+L` | Focus query input |
-| `Ctrl+Option+1` | Toggle ChatGPT |
-| `Ctrl+Option+2` | Toggle Claude |
-| `Ctrl+Option+3` | Toggle Gemini |
+| `Cmd+Shift+1` | Toggle ChatGPT |
+| `Cmd+Shift+2` | Toggle Claude |
+| `Cmd+Shift+3` | Toggle Gemini |
 | `Cmd+Shift+R` | Reload all panels |
 | `Cmd+N` | New chat (reset current tab) |
 | `Cmd+T` | New tab |
@@ -133,8 +91,6 @@ Then open Raycast, go to Extensions, and import the built extension from the dir
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | Next / previous tab |
 
 Everything is also accessible through the command palette.
-
-<br>
 
 ## How It Works
 
@@ -151,8 +107,6 @@ Cookie import reads Chrome's encrypted SQLite cookie database on macOS, decrypts
 - **macOS** (Apple Silicon) — cookie import uses the macOS Keychain
 - **Chrome** — logged into the three platforms
 - **Node.js 18+** (only needed when running from source)
-
-<br>
 
 ## License
 
