@@ -218,7 +218,7 @@ function deriveAutoName(tab) {
 }
 
 function maybeAutoRename(tab) {
-  if (tab.userRenamed || !tab.querySent) return;
+  if (tab.userRenamed) return;
 
   const name = deriveAutoName(tab);
   if (name) {
@@ -1126,12 +1126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Periodically poll webviews for dynamic title changes (especially for Gemini)
   setInterval(async () => {
     for (const tab of tabs) {
-      if (tab.userRenamed || !tab.querySent) continue;
-      
-      // Stop polling once the tab has a valid, non-generic name
-      if (tab.name !== 'New Chat' && !GENERIC_TITLES.has(tab.name.toLowerCase()) && !tab.name.toLowerCase().includes('untitled')) {
-        continue;
-      }
+      if (tab.userRenamed) continue;
       
       for (const [platform, wv] of Object.entries(tab.webviews)) {
         if (tab.enabledPlatforms[platform] && !wv.isLoading()) {
