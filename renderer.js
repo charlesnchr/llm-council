@@ -1,6 +1,20 @@
 const { ipcRenderer } = require('electron');
 
 // ═══════════════════════════════════════════════════════════════
+// Config and state
+// ═══════════════════════════════════════════════════════════════
+
+let lastEnabledPlatforms = { chatgpt: true, claude: true, gemini: true };
+
+async function loadConfig() {
+  lastEnabledPlatforms = await ipcRenderer.invoke('store-get', 'enabledPlatforms', { chatgpt: true, claude: true, gemini: true });
+}
+
+function saveConfig() {
+  ipcRenderer.send('store-set', 'enabledPlatforms', lastEnabledPlatforms);
+}
+
+// ═══════════════════════════════════════════════════════════════
 // Platform configuration
 // ═══════════════════════════════════════════════════════════════
 
@@ -123,7 +137,6 @@ let activeTabId = null;
 let nextTabId = 0;
 const toggleEls = {}; // platform -> toggle button element
 const titleDebounceTimers = {}; // tabId -> timeout
-let lastEnabledPlatforms = { chatgpt: true, claude: true, gemini: true };
 
 function getActiveTab() {
   return tabs.find(t => t.id === activeTabId) || null;
@@ -421,6 +434,7 @@ function togglePlatform(platform) {
 
   enabled[platform] = !enabled[platform];
   lastEnabledPlatforms = { ...enabled };
+  saveConfig();
   updateTogglesUI();
   updatePanelVisibility();
 }
@@ -465,6 +479,7 @@ function showOnlyPlatform(platform) {
     tab.enabledPlatforms[p] = (p === platform);
   }
   lastEnabledPlatforms = { ...tab.enabledPlatforms };
+  saveConfig();
   updateTogglesUI();
   updatePanelVisibility();
 }
@@ -476,6 +491,7 @@ function showAllPlatforms() {
     tab.enabledPlatforms[p] = true;
   }
   lastEnabledPlatforms = { ...tab.enabledPlatforms };
+  saveConfig();
   updateTogglesUI();
   updatePanelVisibility();
 }
@@ -889,7 +905,9 @@ async function syncCookies() {
 // Initialization
 // ═══════════════════════════════════════════════════════════════
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadConfig();
+
   const form = document.getElementById('query-form');
   const input = document.getElementById('query-input');
   const sendBtn = document.getElementById('send-btn');

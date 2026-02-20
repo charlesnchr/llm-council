@@ -1,7 +1,9 @@
 const { app, BrowserWindow, session, ipcMain, Menu, nativeTheme } = require('electron');
 const path = require('path');
+const Store = require('electron-store');
 const { readChromeCookies, getChromeProfilePath } = require('./cookie-import');
 
+const store = new Store();
 let mainWindow;
 
 const DOMAIN_MAP = {
@@ -247,6 +249,15 @@ app.whenReady().then(() => {
     } catch (err) {
       return { success: false, error: err.message };
     }
+  });
+
+  // ── IPC: Store config ──
+  ipcMain.handle('store-get', (_event, key, defaultValue) => {
+    return store.get(key, defaultValue);
+  });
+
+  ipcMain.on('store-set', (_event, key, value) => {
+    store.set(key, value);
   });
 
   buildMenu();
