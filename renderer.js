@@ -227,7 +227,6 @@ function maybeAutoRename(tab) {
     saveTabs();
   }
 }
-}
 
 function createTab(name = 'New Chat', initialData = null) {
   const id = ++nextTabId;
@@ -1123,4 +1122,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   input.focus();
+
+  // Periodically poll webviews for dynamic title changes (especially for Gemini)
+  setInterval(async () => {
+    for (const tab of tabs) {
+      if (tab.userRenamed || !tab.querySent) continue;
+      
+      for (const [platform, wv] of Object.entries(tab.webviews)) {
+        if (tab.enabledPlatforms[platform] && !wv.isLoading()) {
+          try {
+            let rawTitle = await wv.executeJavaScript('document.title');
+            
+            if (platform === 'gemini') {
+              const domTitle = await wv.executeJavaScript(`
+                (() => {
+                  const el = document.querySelector('div[data-test-id="conversation"].selected .conversation-title') || document.querySelector('.conversation-title');
+                  return el ? el.textContent : null;
+                })()
+              `);
+              if (domTitle && domTitle.trim() && domTitle.trim() !== 'New chat') {
+                rawTitle = domTitle;
+              }
+            }
+
+            if (rawTitle) {
+              const cleaned = cleanTitle(platform, rawTitle);
+              if (cleaned && tab.autoTitles[platform] !== cleaned) {
+                tab.autoTitles[platform] = cleaned;
+                maybeAutoRename(tab);
+              }
+            }
+          } catch (e) {
+            // ignore execute errors (e.g. webview not fully ready)
+          }
+        }
+      }
+    }
+  }, 3000);
 });
